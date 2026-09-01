@@ -2,967 +2,478 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>Investigación Global</title>
 
-    <title>Power BI Visualizador</title>
-
-
-    <!-- =====================================================
-         BOOTSTRAP 5.3
-    ====================================================== -->
-
+    <!-- Bootstrap 5.3 -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-
-    <!-- =====================================================
-         ESTILOS PROPIOS
-    ====================================================== -->
-
     <style>
-
-        :root {
-
-            --bi-yellow: #f2c811;
-
-            --bi-yellow-hover: #dcb400;
-
-            --bi-dark: #111827;
-
-            --bi-bg: #f4f5f7;
-
-            --bi-border: #e5e7eb;
-
-            --bi-muted: #6b7280;
-
-        }
-
-
-        /* =================================================
-           BASE
-        ================================================= */
+        /* ==============================
+           ESTRUCTURA GENERAL
+        ============================== */
 
         html,
         body {
-
             width: 100%;
             height: 100%;
-
             margin: 0;
-
-            padding: 0;
-
             overflow: hidden;
-
-            font-family:
-                "Segoe UI",
-                Arial,
-                sans-serif;
-
-            background:
-                var(--bi-bg);
-
         }
 
+        body {
+            background: var(--bs-light);
+        }
 
         #app {
-
             width: 100%;
-
             height: 100vh;
-
             display: flex;
-
             flex-direction: column;
-
         }
 
 
-        /* =================================================
+        /* ==============================
            HEADER
-        ================================================= */
+        ============================== */
 
         .app-header {
-
-            min-height: 58px;
-
             height: 58px;
-
-            background:
-                #ffffff;
-
-            border-bottom:
-                1px solid var(--bi-border);
-
+            min-height: 58px;
+            background: var(--bs-white);
+            border-bottom: 1px solid var(--bs-border-color);
             z-index: 20;
-
         }
 
-
-        /* =================================================
-           MARCA
-        ================================================= */
-
-        .brand-icon {
-
-            width: 34px;
-
-            height: 34px;
-
+        .brand-logo {
+            width: 38px;
+            height: 38px;
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            border-radius: 7px;
-
-            background:
-                var(--bi-yellow);
-
-            color:
-                var(--bi-dark);
-
-            font-size: 14px;
-
-            font-weight: 800;
-
             flex-shrink: 0;
-
+            overflow: hidden;
         }
 
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
 
         .brand-title {
-
             font-size: 14px;
-
-            font-weight: 650;
-
-            color:
-                var(--bi-dark);
-
+            font-weight: 600;
             line-height: 1.1;
-
         }
-
 
         .brand-subtitle {
-
             font-size: 9px;
-
-            color:
-                var(--bi-muted);
-
             line-height: 1.1;
-
         }
-
-
-        /* =================================================
-           CONTROLES HEADER
-        ================================================= */
 
         .header-controls {
-
             display: flex;
-
             align-items: center;
-
-            gap: 5px;
-
+            gap: .35rem;
         }
 
-
-        .report-select {
-
-            width: 125px;
-
-        }
-
-
+        .report-select,
         .refresh-select {
-
             width: 125px;
-
         }
-
-
-        /* =================================================
-           BOTÓN ACTUALIZAR
-        ================================================= */
 
         .btn-refresh {
-
             min-width: 100px;
-
             white-space: nowrap;
-
         }
 
 
-        /* =================================================
+        /* ==============================
            BARRA URL
-        ================================================= */
+        ============================== */
 
         .url-bar {
-
-            background:
-                #ffffff;
-
-            border-bottom:
-                1px solid var(--bi-border);
-
+            background: var(--bs-white);
+            border-bottom: 1px solid var(--bs-border-color);
         }
-
 
         .url-icon {
-
             width: 32px;
-
             height: 32px;
-
             flex-shrink: 0;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            border:
-                1px solid var(--bi-border);
-
-            border-radius: 6px;
-
-            background:
-                #fafafa;
-
-            color:
-                var(--bi-muted);
-
-            font-size: 14px;
-
+            color: var(--bs-secondary-color);
         }
 
 
-        /* =================================================
-           BOTÓN VINCULAR
-        ================================================= */
-
-        .btn-bi {
-
-            background:
-                var(--bi-yellow);
-
-            border-color:
-                var(--bi-yellow);
-
-            color:
-                var(--bi-dark);
-
-            font-weight: 600;
-
-            white-space: nowrap;
-
-        }
-
-
-        .btn-bi:hover {
-
-            background:
-                var(--bi-yellow-hover);
-
-            border-color:
-                var(--bi-yellow-hover);
-
-            color:
-                var(--bi-dark);
-
-        }
-
-
-        /* =================================================
+        /* ==============================
            ÁREA DEL REPORTE
-        ================================================= */
+        ============================== */
 
         .report-area {
-
             flex: 1;
-
             min-height: 0;
-
             padding: 5px;
-
-            background:
-                #e9ebef;
-
+            background: var(--bs-light);
         }
-
 
         .report-container {
-
-            width: 100%;
-
-            height: 100%;
-
             position: relative;
-
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-
-            background:
-                #ffffff;
-
-            border-radius: 5px;
-
-            box-shadow:
-                0 1px 5px
-                rgba(0, 0, 0, .07);
-
+            background: var(--bs-white);
+            border: 1px solid var(--bs-border-color);
+            border-radius: .375rem;
         }
-
-
-        /* =================================================
-           IFRAME POWER BI
-        ================================================= */
 
         #powerbiFrame {
-
             width: 100%;
-
             height: 100%;
-
             display: block;
-
             border: 0;
-
-            background:
-                #ffffff;
-
+            background: var(--bs-white);
         }
 
 
-        /* =================================================
+        /* ==============================
            LOADING
-        ================================================= */
+        ============================== */
 
         #loading {
-
             position: absolute;
-
             inset: 0;
-
             z-index: 5;
 
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
             justify-content: center;
 
-            background:
-                rgba(255, 255, 255, .96);
-
-            transition:
-                opacity .25s;
-
+            background: rgba(255, 255, 255, .96);
+            transition: opacity .2s ease;
         }
-
 
         #loading.hidden {
-
             opacity: 0;
-
             pointer-events: none;
-
         }
 
 
-        .spinner-bi {
-
-            width: 28px;
-
-            height: 28px;
-
-            border:
-                3px solid #e5e7eb;
-
-            border-top-color:
-                var(--bi-yellow);
-
-            border-radius: 50%;
-
-            animation:
-                spin .8s linear infinite;
-
-        }
-
-
-        @keyframes spin {
-
-            to {
-
-                transform:
-                    rotate(360deg);
-
-            }
-
-        }
-
-
-        /* =================================================
+        /* ==============================
            ERROR
-        ================================================= */
+        ============================== */
 
         #errorMessage {
-
             position: absolute;
-
             top: 50%;
-
             left: 50%;
+            transform: translate(-50%, -50%);
 
-            transform:
-                translate(-50%, -50%);
-
-            width:
-                min(400px, 90%);
-
+            width: min(400px, 90%);
             z-index: 8;
-
             display: none;
-
         }
-
 
         #errorMessage.show {
-
             display: block;
-
         }
 
 
-        /* =================================================
+        /* ==============================
            FOOTER
-        ================================================= */
+        ============================== */
 
         .app-footer {
-
-            min-height: 27px;
-
             height: 27px;
-
-            background:
-                #ffffff;
-
-            border-top:
-                1px solid var(--bi-border);
-
+            min-height: 27px;
+            background: var(--bs-white);
+            border-top: 1px solid var(--bs-border-color);
             font-size: 9px;
-
-            color:
-                var(--bi-muted);
-
         }
-
 
         .status-dot {
-
             width: 6px;
-
             height: 6px;
-
             border-radius: 50%;
-
-            background:
-                #22c55e;
-
         }
-
 
         #countdown {
-
-            color:
-                var(--bi-dark);
-
             font-weight: 600;
-
         }
 
 
-        /* =================================================
-           FULLSCREEN
-        ================================================= */
+        /* ==============================
+           PANTALLA COMPLETA
+        ============================== */
 
-        #app.fullscreen-mode
-        .app-header,
-
-        #app.fullscreen-mode
-        .url-bar,
-
-        #app.fullscreen-mode
-        .app-footer {
-
+        #app.fullscreen-mode .app-header,
+        #app.fullscreen-mode .url-bar,
+        #app.fullscreen-mode .app-footer {
             display: none;
-
         }
 
-
-        #app.fullscreen-mode
-        .report-area {
-
+        #app.fullscreen-mode .report-area {
             padding: 0;
-
         }
 
-
-        #app.fullscreen-mode
-        .report-container {
-
+        #app.fullscreen-mode .report-container {
+            border: 0;
             border-radius: 0;
-
         }
 
 
-        /* =================================================
+        /* ==============================
            TABLET
-        ================================================= */
+        ============================== */
 
         @media (max-width: 900px) {
 
-            .brand-subtitle {
-
+            .brand-subtitle,
+            .header-label {
                 display: none;
-
             }
-
 
             .brand-title {
-
                 font-size: 13px;
-
             }
 
-
-            .header-label {
-
-                display: none;
-
-            }
-
-
-            .report-select {
-
-                width: 115px;
-
-            }
-
-
+            .report-select,
             .refresh-select {
-
                 width: 115px;
-
             }
-
 
             .btn-refresh {
-
                 min-width: 96px;
-
             }
-
         }
 
 
-        /* =================================================
+        /* ==============================
            MÓVIL
-        ================================================= */
+        ============================== */
 
         @media (max-width: 650px) {
 
             .app-header {
-
                 height: 52px;
-
                 min-height: 52px;
-
             }
 
-
-            .brand-icon {
-
-                width: 30px;
-
-                height: 30px;
-
-                font-size: 12px;
-
+            .brand-logo {
+                width: 32px;
+                height: 32px;
             }
-
 
             .brand-title {
-
                 display: none;
-
             }
-
 
             .header-controls {
-
                 width: 100%;
-
                 justify-content: flex-end;
-
             }
 
-
-            .report-select {
-
-                width: 105px;
-
-            }
-
-
+            .report-select,
             .refresh-select {
-
                 width: 105px;
-
             }
-
-
-            /*
-                Actualizar sigue siendo
-                RECTANGULAR
-            */
 
             .btn-refresh {
-
-                min-width: auto;
-
-                padding-left: 10px !important;
-
-                padding-right: 10px !important;
-
-            }
-
-
-            /*
-                Solo mostramos el símbolo
-                en pantallas muy pequeñas.
-            */
-
-            .btn-refresh .refresh-text {
-
-                display: none;
-
-            }
-
-
-            /*
-                Pero el botón conserva
-                forma rectangular.
-            */
-
-            .btn-refresh {
-
                 min-width: 42px;
-
+                padding-left: .65rem !important;
+                padding-right: .65rem !important;
             }
 
+            .refresh-text {
+                display: none;
+            }
 
             .url-bar {
-
-                padding:
-                    6px !important;
-
+                padding: .4rem !important;
             }
-
 
             .url-icon {
-
                 display: none;
-
             }
-
 
             .report-area {
-
                 padding: 3px;
-
             }
-
 
             .app-footer {
-
                 height: 24px;
-
                 min-height: 24px;
-
             }
-
         }
 
 
-        /* =================================================
-           TELÉFONOS MUY PEQUEÑOS
-        ================================================= */
+        /* ==============================
+           TELÉFONOS PEQUEÑOS
+        ============================== */
 
         @media (max-width: 430px) {
 
-            .report-select {
-
-                width: 95px;
-
-                font-size: 11px;
-
-            }
-
-
+            .report-select,
             .refresh-select {
-
                 width: 95px;
-
                 font-size: 11px;
-
             }
-
 
             .btn-refresh {
-
                 min-width: 38px;
-
-                padding-left: 8px !important;
-
-                padding-right: 8px !important;
-
+                padding-left: .5rem !important;
+                padding-right: .5rem !important;
             }
-
 
             .btn-fullscreen {
-
                 width: 34px;
-
             }
-
         }
-
     </style>
-
 </head>
 
 
 <body>
 
-
 <div id="app">
 
 
-    <!-- =====================================================
+    <!-- ==============================
          HEADER
-    ====================================================== -->
+    ============================== -->
 
     <header class="app-header">
 
+        <div class="container-fluid h-100 px-2 px-md-3">
 
-        <div
-            class="container-fluid h-100 px-2 px-md-3">
-
-
-            <div
-                class="d-flex align-items-center justify-content-between h-100">
+            <div class="d-flex align-items-center justify-content-between h-100">
 
 
-                <!-- =================================================
-                     MARCA
-                ================================================== -->
+                <!-- LOGO Y NOMBRE -->
 
-                <div
-                    class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2">
 
-
-                    <div
-                        class="brand-icon">
-
-                        BI
-
+                    <div class="brand-logo">
+                        <img
+                            src="https://estudiar.unir.net/wp-content/uploads/2024/02/cropped-fav_512-1.png"
+                            alt="UNIR">
                     </div>
-
 
                     <div>
 
-                        <div
-                            class="brand-title">
-
-                            Power BI Visualizador
-
+                        <div class="brand-title">
+                            Portal de Reportes
                         </div>
 
-
-                        <div
-                            class="brand-subtitle">
-
-                            Plataforma de reportes
-
+                        <div class="brand-subtitle text-secondary">
+                            UNIR - Investigación Global
                         </div>
 
                     </div>
-
 
                 </div>
 
 
-                <!-- =================================================
-                     CONTROLES
-                ================================================== -->
+                <!-- CONTROLES -->
 
-                <div
-                    class="header-controls">
+                <div class="header-controls">
 
 
                     <!-- SELECTOR DE REPORTE -->
 
-                    <span
-                        class="header-label small text-secondary">
-
+                    <span class="header-label small text-secondary">
                         Reporte:
-
                     </span>
-
 
                     <select
                         id="reportSelector"
                         class="form-select form-select-sm report-select"
                         onchange="changeReport()">
 
-
                         <option value="reporte1">
-
                             Convocatorias I+D+i
-
                         </option>
-
 
                         <option value="reporte2">
-
                             Reporte 2
-
                         </option>
-
 
                     </select>
 
 
-                    <!-- SELECTOR DE ACTUALIZACIÓN -->
+                    <!-- ACTUALIZACIÓN -->
 
                     <select
                         id="refreshSelector"
                         class="form-select form-select-sm refresh-select"
                         onchange="changeRefreshTime()">
 
-
                         <option value="0">
-
                             Manual
-
                         </option>
-
 
                         <option value="300">
-
                             Cada 5 min
-
                         </option>
-
 
                         <option value="900">
-
                             Cada 15 min
-
                         </option>
-
 
                         <option value="1800">
-
                             Cada 30 min
-
                         </option>
-
 
                         <option value="3600">
-
                             Cada 1 hora
-
                         </option>
-
 
                         <option value="7200">
-
                             Cada 2 horas
-
                         </option>
-
 
                         <option value="18000">
-
                             Cada 5 horas
-
                         </option>
-
 
                         <option value="43200">
-
                             Cada 12 horas
-
                         </option>
-
 
                         <option value="86400">
-
                             Cada 24 horas
-
                         </option>
-
 
                     </select>
 
 
-                    <!-- =================================================
-                         ACTUALIZAR
-                    ================================================== -->
+                    <!-- ACTUALIZAR -->
 
                     <button
                         type="button"
-                        class="btn btn-dark btn-sm px-3 btn-refresh"
+                        class="btn btn-warning btn-sm btn-refresh"
                         onclick="refreshReport()"
                         title="Actualizar reporte">
 
-
-                        <span>
-
-                            ↻
-
-                        </span>
-
+                        <span>↻</span>
 
                         <span class="refresh-text">
-
                             Actualizar
-
                         </span>
-
 
                     </button>
 
 
-                    <!-- =================================================
-                         PANTALLA COMPLETA
-                    ================================================== -->
+                    <!-- PANTALLA COMPLETA -->
 
                     <button
                         type="button"
@@ -970,54 +481,39 @@
                         onclick="toggleFullscreen()"
                         title="Pantalla completa">
 
-
                         ⛶
 
                     </button>
 
-
                 </div>
-
 
             </div>
 
-
         </div>
-
 
     </header>
 
 
-
-    <!-- =====================================================
-         CONTENIDO PRINCIPAL
-    ====================================================== -->
+    <!-- ==============================
+         CONTENIDO
+    ============================== -->
 
     <main
         class="flex-grow-1 d-flex flex-column"
         style="min-height:0;">
 
 
+        <!-- BARRA URL -->
 
-        <!-- =================================================
-             BARRA DE URL
-        ================================================== -->
+        <section class="url-bar px-2 px-md-3 py-2">
 
-        <section
-            class="url-bar px-2 px-md-3 py-2">
-
-
-            <div
-                class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2">
 
 
                 <!-- ICONO -->
 
-                <div
-                    class="url-icon">
-
+                <div class="url-icon">
                     🔗
-
                 </div>
 
 
@@ -1035,100 +531,66 @@
 
                 <button
                     type="button"
-                    class="btn btn-bi btn-sm px-3"
+                    class="btn btn-primary btn-sm px-3"
                     onclick="openManualReport()">
-
 
                     Vincular
 
                 </button>
 
-
             </div>
-
 
         </section>
 
 
+        <!-- VISOR -->
 
-        <!-- =================================================
-             VISOR POWER BI
-        ================================================== -->
+        <section class="report-area">
 
-        <section
-            class="report-area">
+            <div class="report-container">
 
 
-            <div
-                class="report-container">
+                <!-- LOADING -->
 
-
-                <!-- =================================================
-                     LOADING
-                ================================================== -->
-
-                <div
-                    id="loading">
-
+                <div id="loading">
 
                     <div
-                        class="spinner-bi mb-2">
+                        class="spinner-border text-primary mb-2"
+                        role="status"
+                        aria-hidden="true">
                     </div>
 
-
-                    <div
-                        class="small text-secondary">
-
+                    <div class="small text-secondary">
                         Cargando reporte...
-
                     </div>
-
 
                 </div>
 
 
-
-                <!-- =================================================
-                     ERROR
-                ================================================== -->
+                <!-- ERROR -->
 
                 <div
                     id="errorMessage"
                     class="alert alert-light border shadow-sm text-center">
 
-
-                    <div
-                        class="fs-3 mb-2">
-
+                    <div class="fs-3 mb-2">
                         ⚠️
-
                     </div>
 
-
                     <h6>
-
                         No se pudo cargar el reporte
-
                     </h6>
 
-
-                    <p
-                        class="small text-secondary mb-0">
-
-                        Verifica que la URL sea válida y que
-                        el reporte permita su visualización
-                        mediante inserción.
-
+                    <p class="small text-secondary mb-0">
+                        Verifica que la URL sea válida y que el
+                        reporte permita su visualización mediante
+                        inserción.
                     </p>
-
 
                 </div>
 
 
-
-                <!-- =================================================
-                     IFRAME
-                ================================================== -->
+                <!-- IFRAME -->
 
                 <iframe
                     id="powerbiFrame"
@@ -1136,24 +598,18 @@
                     allowfullscreen>
                 </iframe>
 
-
             </div>
 
-
         </section>
-
 
     </main>
 
 
-
-    <!-- =====================================================
+    <!-- ==============================
          FOOTER
-    ====================================================== -->
+    ============================== -->
 
-    <footer
-        class="app-footer px-3">
-
+    <footer class="app-footer px-3">
 
         <div
             class="d-flex align-items-center justify-content-between h-100">
@@ -1161,886 +617,524 @@
 
             <!-- ESTADO -->
 
-            <div
-                class="d-flex align-items-center gap-1">
-
+            <div class="d-flex align-items-center gap-1">
 
                 <span
-                    class="status-dot">
+                    class="status-dot bg-success">
                 </span>
 
-
-                <span
-                    id="status">
-
-                    Reporte: Convocatorias I+D+i
-
+                <span id="status">
+                    Convocatorias I+D+i
                 </span>
-
 
             </div>
 
 
             <!-- CONTADOR -->
 
-            <div
-                class="d-flex align-items-center gap-1">
-
+            <div class="d-flex align-items-center gap-1">
 
                 <span>
-
                     Próxima actualización:
-
                 </span>
 
-
-                <span
-                    id="countdown">
-
+                <span id="countdown">
                     Manual
-
                 </span>
-
 
             </div>
 
-
         </div>
 
-
     </footer>
-
 
 </div>
 
 
-
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
-
 <script>
 
+    /* ==========================================
+       REPORTES PREDETERMINADOS
+    ========================================== */
 
-/* =========================================================
-   REPORTES PREDETERMINADOS
-========================================================= */
+    const reports = {
 
+        reporte1: {
+            name: "Convocatorias I+D+i",
 
-const reports = {
+            url:
+                "https://app.powerbi.com/reportEmbed?reportId=6959d0e3-a77d-401f-a4f5-ac7076a8913b&autoAuth=true&ctid=22c8b4a4-d926-43b2-bcc7-87b998590b47&actionBarEnabled=true"
+        },
 
+        reporte2: {
+            name: "Reporte 2",
 
-    reporte1: {
+            /*
+             * COLOCA AQUÍ LA URL DEL SEGUNDO
+             * REPORTE DE POWER BI.
+             */
 
-        name:
-            "Convocatorias I+D+i",
+            url: "URL_DEL_SEGUNDO_REPORTE"
+        }
 
-        url:
-            "https://app.powerbi.com/reportEmbed?reportId=6959d0e3-a77d-401f-a4f5-ac7076a8913b&autoAuth=true&ctid=22c8b4a4-d926-43b2-bcc7-87b998590b47&actionBarEnabled=true"
-
-    },
-
-
-    reporte2: {
-
-        name:
-            "Reporte 2",
-
-        /*
-        =====================================================
-        COLOCA AQUÍ LA URL DEL SEGUNDO REPORTE
-        =====================================================
-        */
-
-        url:
-            "URL_DEL_SEGUNDO_REPORTE"
-
-    }
-
-};
+    };
 
 
-/* =========================================================
-   ESTADO
-========================================================= */
+    /* ==========================================
+       ESTADO
+    ========================================== */
 
-let currentReport =
-    "reporte1";
+    let currentReport = "reporte1";
+    let currentUrl = "";
+    let currentReportName = "Convocatorias I+D+i";
 
-
-let currentUrl =
-    "";
-
-
-let currentReportName =
-    "Reporte 1";
+    let countdownInterval = null;
+    let remainingSeconds = 0;
 
 
-let countdownInterval =
-    null;
+    /* ==========================================
+       ELEMENTOS
+    ========================================== */
+
+    const frame =
+        document.getElementById("powerbiFrame");
+
+    const loading =
+        document.getElementById("loading");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    const urlInput =
+        document.getElementById("manualUrl");
+
+    const status =
+        document.getElementById("status");
+
+    const countdown =
+        document.getElementById("countdown");
+
+    const reportSelector =
+        document.getElementById("reportSelector");
+
+    const refreshSelector =
+        document.getElementById("refreshSelector");
 
 
-let remainingSeconds =
-    0;
+    /* ==========================================
+       CARGAR REPORTE PREDETERMINADO
+    ========================================== */
 
+    function loadDefaultReport(reportKey) {
 
-/* =========================================================
-   ELEMENTOS
-========================================================= */
+        const report = reports[reportKey];
 
-const frame =
-    document.getElementById(
-        "powerbiFrame"
-    );
+        if (!report) {
+            return;
+        }
 
+        currentReport = reportKey;
+        currentUrl = report.url;
+        currentReportName = report.name;
 
-const loading =
-    document.getElementById(
-        "loading"
-    );
+        urlInput.value = report.url;
 
+        status.textContent = report.name;
 
-const errorMessage =
-    document.getElementById(
-        "errorMessage"
-    );
-
-
-const urlInput =
-    document.getElementById(
-        "manualUrl"
-    );
-
-
-const status =
-    document.getElementById(
-        "status"
-    );
-
-
-const countdown =
-    document.getElementById(
-        "countdown"
-    );
-
-
-/* =========================================================
-   CARGAR REPORTE PREDETERMINADO
-========================================================= */
-
-function loadDefaultReport(
-    reportKey
-) {
-
-
-    const report =
-        reports[reportKey];
-
-
-    if (!report) {
-
-        return;
-
+        loadIframe(report.url);
     }
 
 
-    /*
-    Guardar estado
-    */
+    /* ==========================================
+       CARGAR IFRAME
+    ========================================== */
 
-    currentReport =
-        reportKey;
+    function loadIframe(url) {
 
+        errorMessage.classList.remove("show");
 
-    currentUrl =
-        report.url;
-
-
-    currentReportName =
-        report.name;
+        loading.classList.remove("hidden");
 
 
-    /*
-    Mostrar URL
-    */
+        /* URL no configurada */
 
-    urlInput.value =
-        report.url;
+        if (
+            !url ||
+            url === "URL_DEL_SEGUNDO_REPORTE"
+        ) {
 
+            loading.classList.add("hidden");
 
-    /*
-    Estado
-    */
+            errorMessage.classList.add("show");
 
-    status.textContent =
-        report.name;
+            status.textContent =
+                "Reporte no configurado";
 
-
-    /*
-    Cargar
-    */
-
-    loadIframe(
-        report.url
-    );
-
-}
+            return;
+        }
 
 
-/* =========================================================
-   CARGAR IFRAME
-========================================================= */
+        /* Cargar reporte */
 
-function loadIframe(
-    url
-) {
+        frame.src = url;
 
 
-    /*
-    Ocultar error
-    */
+        /* Cuando termina la carga */
 
-    errorMessage.classList.remove(
-        "show"
-    );
+        frame.onload = function () {
 
-
-    /*
-    Mostrar loading
-    */
-
-    loading.classList.remove(
-        "hidden"
-    );
-
-
-    /*
-    Validación
-    */
-
-    if (
-        !url ||
-        url === "URL_DEL_SEGUNDO_REPORTE"
-    ) {
-
-
-        loading.classList.add(
-            "hidden"
-        );
-
-
-        errorMessage.classList.add(
-            "show"
-        );
-
-
-        status.textContent =
-            "Reporte no configurado";
-
-
-        return;
-
-    }
-
-
-    /*
-    Cargar URL
-    */
-
-    frame.src =
-        url;
-
-
-    /*
-    Finalizada carga
-    */
-
-    frame.onload =
-        function() {
-
-            loading.classList.add(
-                "hidden"
-            );
+            loading.classList.add("hidden");
 
         };
 
-}
+    }
 
 
-/* =========================================================
-   CAMBIAR REPORTE
-========================================================= */
+    /* ==========================================
+       CAMBIAR REPORTE
+    ========================================== */
 
-function changeReport() {
+    function changeReport() {
+
+        const selected =
+            reportSelector.value;
+
+        if (!reports[selected]) {
+            return;
+        }
+
+        loadDefaultReport(selected);
+
+        restartRefreshTimer();
+    }
 
 
-    const selected =
-        document
-            .getElementById(
-                "reportSelector"
-            )
-            .value;
+    /* ==========================================
+       VINCULAR URL MANUAL
+    ========================================== */
+
+    function openManualReport() {
+
+        const url =
+            urlInput.value.trim();
 
 
-    if (
-        !reports[selected]
-    ) {
+        /* URL vacía */
 
-        return;
+        if (!url) {
+
+            alert(
+                "Introduce la URL del reporte de Power BI."
+            );
+
+            urlInput.focus();
+
+            return;
+        }
+
+
+        /* Validación básica */
+
+        if (!url.includes("powerbi.com")) {
+
+            alert(
+                "La URL ingresada no parece corresponder a Power BI."
+            );
+
+            urlInput.focus();
+
+            return;
+        }
+
+
+        /*
+         * REPORTE MANUAL
+         *
+         * No se agrega al selector.
+         */
+
+        currentReport = "manual";
+
+        currentUrl = url;
+
+        currentReportName =
+            "Reporte externo";
+
+
+        status.textContent =
+            "Reporte externo";
+
+
+        loadIframe(url);
+
+        restartRefreshTimer();
+    }
+
+
+    /* ==========================================
+       ACTUALIZAR REPORTE
+    ========================================== */
+
+    function refreshReport() {
+
+        if (!currentUrl) {
+            return;
+        }
+
+        loadIframe(currentUrl);
+
+        restartCountdown();
+    }
+
+
+    /* ==========================================
+       CAMBIAR FRECUENCIA
+    ========================================== */
+
+    function changeRefreshTime() {
+
+        restartRefreshTimer();
 
     }
 
 
-    /*
-    Cargar reporte
-    */
+    /* ==========================================
+       TEMPORIZADOR
+    ========================================== */
 
-    loadDefaultReport(
-        selected
-    );
+    function restartRefreshTimer() {
 
+        if (countdownInterval) {
 
-    /*
-    Reiniciar actualización
-    */
+            clearInterval(countdownInterval);
 
-    restartRefreshTimer();
+            countdownInterval = null;
+        }
 
-}
 
+        const seconds =
+            parseInt(
+                refreshSelector.value,
+                10
+            );
 
-/* =========================================================
-   VINCULAR URL MANUAL
-========================================================= */
 
-function openManualReport() {
+        /* Actualización manual */
 
+        if (seconds === 0) {
 
-    const url =
-        urlInput.value.trim();
+            countdown.textContent =
+                "Manual";
 
+            remainingSeconds = 0;
 
-    /*
-    URL vacía
-    */
+            return;
+        }
 
-    if (!url) {
 
+        remainingSeconds = seconds;
 
-        alert(
-            "Introduce la URL del reporte de Power BI."
-        );
-
-
-        urlInput.focus();
-
-
-        return;
-
-    }
-
-
-    /*
-    Validación básica
-    */
-
-    if (
-        !url.includes(
-            "powerbi.com"
-        )
-    ) {
-
-
-        alert(
-            "La URL ingresada no parece corresponder a Power BI."
-        );
-
-
-        urlInput.focus();
-
-
-        return;
-
-    }
-
-
-    /*
-    =====================================================
-    REPORTE MANUAL
-
-    NO se agrega al selector.
-    =====================================================
-    */
-
-    currentReport =
-        "manual";
-
-
-    currentUrl =
-        url;
-
-
-    currentReportName =
-        "Reporte externo";
-
-
-    /*
-    Actualizar estado
-    */
-
-    status.textContent =
-        "Reporte externo";
-
-
-    /*
-    Cargar
-    */
-
-    loadIframe(
-        url
-    );
-
-
-    /*
-    Reiniciar actualización
-    */
-
-    restartRefreshTimer();
-
-}
-
-
-/* =========================================================
-   ACTUALIZAR
-========================================================= */
-
-function refreshReport() {
-
-
-    if (!currentUrl) {
-
-        return;
-
-    }
-
-
-    /*
-    Recargar el reporte
-    */
-
-    loadIframe(
-        currentUrl
-    );
-
-
-    /*
-    Reiniciar contador
-    */
-
-    restartCountdown();
-
-}
-
-
-/* =========================================================
-   CAMBIAR TIEMPO
-========================================================= */
-
-function changeRefreshTime() {
-
-    restartRefreshTimer();
-
-}
-
-
-/* =========================================================
-   TEMPORIZADOR
-========================================================= */
-
-function restartRefreshTimer() {
-
-
-    /*
-    Limpiar temporizador
-    */
-
-    if (
-        countdownInterval
-    ) {
-
-
-        clearInterval(
-            countdownInterval
-        );
+        updateCountdown();
 
 
         countdownInterval =
-            null;
-
-    }
-
-
-    /*
-    Obtener frecuencia
-    */
-
-    const seconds =
-        parseInt(
-            document
-                .getElementById(
-                    "refreshSelector"
-                )
-                .value
-        );
-
-
-    /*
-    Manual
-    */
-
-    if (
-        seconds === 0
-    ) {
-
-
-        countdown.textContent =
-            "Manual";
-
-
-        return;
-
-    }
-
-
-    /*
-    Inicializar
-    */
-
-    remainingSeconds =
-        seconds;
-
-
-    updateCountdown();
-
-
-    /*
-    Crear intervalo
-    */
-
-    countdownInterval =
-        setInterval(
-            function() {
-
+            setInterval(function () {
 
                 remainingSeconds--;
 
 
-                if (
-                    remainingSeconds <= 0
-                ) {
-
-
-                    /*
-                    Recargar reporte
-                    */
+                if (remainingSeconds <= 0) {
 
                     refreshReport();
 
-
-                    /*
-                    Reiniciar
-                    */
-
                     remainingSeconds =
                         seconds;
-
                 }
 
 
                 updateCountdown();
 
-
-            },
-            1000
-        );
-
-}
-
-
-/* =========================================================
-   REINICIAR CONTADOR
-========================================================= */
-
-function restartCountdown() {
-
-
-    const seconds =
-        parseInt(
-            document
-                .getElementById(
-                    "refreshSelector"
-                )
-                .value
-        );
-
-
-    if (
-        seconds === 0
-    ) {
-
-
-        countdown.textContent =
-            "Manual";
-
-
-        return;
-
+            }, 1000);
     }
 
 
-    remainingSeconds =
-        seconds;
+    /* ==========================================
+       REINICIAR CONTADOR
+    ========================================== */
+
+    function restartCountdown() {
+
+        const seconds =
+            parseInt(
+                refreshSelector.value,
+                10
+            );
 
 
-    updateCountdown();
+        if (seconds === 0) {
 
-}
+            countdown.textContent =
+                "Manual";
 
+            remainingSeconds = 0;
 
-/* =========================================================
-   MOSTRAR CONTADOR
-========================================================= */
-
-function updateCountdown() {
-
-
-    if (
-        remainingSeconds <= 0
-    ) {
+            return;
+        }
 
 
-        countdown.textContent =
-            "Actualizando...";
+        remainingSeconds = seconds;
 
-
-        return;
-
+        updateCountdown();
     }
 
 
-    const hours =
-        Math.floor(
-            remainingSeconds / 3600
-        );
+    /* ==========================================
+       MOSTRAR CONTADOR
+    ========================================== */
+
+    function updateCountdown() {
+
+        if (remainingSeconds <= 0) {
+
+            countdown.textContent =
+                "Actualizando...";
+
+            return;
+        }
 
 
-    const minutes =
-        Math.floor(
-            (
-                remainingSeconds % 3600
-            ) / 60
-        );
+        const hours =
+            Math.floor(
+                remainingSeconds / 3600
+            );
 
 
-    const seconds =
-        remainingSeconds % 60;
+        const minutes =
+            Math.floor(
+                (remainingSeconds % 3600) / 60
+            );
 
 
-    let text =
-        "";
+        const seconds =
+            remainingSeconds % 60;
 
 
-    /*
-    Horas
-    */
+        let text = "";
 
-    if (
-        hours > 0
-    ) {
+
+        if (hours > 0) {
+
+            text +=
+                String(hours)
+                    .padStart(2, "0")
+                + ":";
+        }
 
 
         text +=
-            String(hours)
+            String(minutes)
                 .padStart(2, "0")
             + ":";
 
+
+        text +=
+            String(seconds)
+                .padStart(2, "0");
+
+
+        countdown.textContent = text;
     }
 
 
-    /*
-    Minutos
-    */
+    /* ==========================================
+       PANTALLA COMPLETA
+    ========================================== */
 
-    text +=
-        String(minutes)
-            .padStart(2, "0")
-        + ":";
-
-
-    /*
-    Segundos
-    */
-
-    text +=
-        String(seconds)
-            .padStart(2, "0");
-
-
-    countdown.textContent =
-        text;
-
-}
-
-
-/* =========================================================
-   PANTALLA COMPLETA
-========================================================= */
-
-function toggleFullscreen() {
-
-
-    const app =
-        document.getElementById(
-            "app"
-        );
-
-
-    /*
-    Entrar
-    */
-
-    if (
-        !document.fullscreenElement
-    ) {
-
-
-        if (
-            app.requestFullscreen
-        ) {
-
-
-            app.requestFullscreen();
-
-        }
-
-
-    }
-
-
-    /*
-    Salir
-    */
-
-    else {
-
-
-        if (
-            document.exitFullscreen
-        ) {
-
-
-            document.exitFullscreen();
-
-        }
-
-    }
-
-}
-
-
-/* =========================================================
-   CAMBIO FULLSCREEN
-========================================================= */
-
-document.addEventListener(
-    "fullscreenchange",
-    function() {
-
+    function toggleFullscreen() {
 
         const app =
-            document.getElementById(
-                "app"
-            );
+            document.getElementById("app");
 
 
-        if (
-            document.fullscreenElement
-        ) {
+        if (!document.fullscreenElement) {
+
+            if (app.requestFullscreen) {
+
+                app.requestFullscreen();
+            }
+
+        } else {
+
+            if (document.exitFullscreen) {
+
+                document.exitFullscreen();
+            }
+        }
+    }
 
 
-            app.classList.add(
-                "fullscreen-mode"
-            );
+    /* ==========================================
+       CAMBIO DE PANTALLA COMPLETA
+    ========================================== */
 
+    document.addEventListener(
+        "fullscreenchange",
+        function () {
+
+            const app =
+                document.getElementById("app");
+
+
+            if (document.fullscreenElement) {
+
+                app.classList.add(
+                    "fullscreen-mode"
+                );
+
+            } else {
+
+                app.classList.remove(
+                    "fullscreen-mode"
+                );
+            }
 
         }
-
-        else {
-
-
-            app.classList.remove(
-                "fullscreen-mode"
-            );
-
-        }
-
-    }
-);
+    );
 
 
-/* =========================================================
-   ENTER EN URL
-========================================================= */
+    /* ==========================================
+       ENTER EN URL
+    ========================================== */
 
-urlInput.addEventListener(
-    "keydown",
-    function(event) {
+    urlInput.addEventListener(
+        "keydown",
+        function (event) {
 
+            if (event.key === "Enter") {
 
-        if (
-            event.key === "Enter"
-        ) {
-
-
-            openManualReport();
+                openManualReport();
+            }
 
         }
-
-    }
-);
+    );
 
 
-/* =========================================================
-   INICIO
-========================================================= */
+    /* ==========================================
+       INICIO
+    ========================================== */
 
-window.addEventListener(
-    "load",
-    function() {
+    window.addEventListener(
+        "load",
+        function () {
 
+            loadDefaultReport("reporte1");
 
-        /*
-        Cargar Reporte 1
-        */
+            restartRefreshTimer();
 
-        loadDefaultReport(
-            "reporte1"
-        );
-
-
-        /*
-        Iniciar actualización
-        */
-
-        restartRefreshTimer();
-
-    }
-);
-
+        }
+    );
 
 </script>
 
-
 </body>
-
 </html>
