@@ -538,6 +538,19 @@
 
                 </button>
 
+
+                <!-- FUENTE -->
+
+                <button
+                    type="button"
+                    class="btn btn-success btn-sm px-3 text-nowrap"
+                    onclick="openSourceExcel()"
+                    title="Abrir Excel Fuente">
+
+                    📊 Fuente
+
+                </button>
+
             </div>
 
         </section>
@@ -663,18 +676,20 @@
             name: "Convocatorias I+D+i",
 
             url:
-                "https://app.powerbi.com/reportEmbed?reportId=6959d0e3-a77d-401f-a4f5-ac7076a8913b&autoAuth=true&ctid=22c8b4a4-d926-43b2-bcc7-87b998590b47&actionBarEnabled=true"
+                "https://app.powerbi.com/reportEmbed?reportId=6959d0e3-a77d-401f-a4f5-ac7076a8913b&autoAuth=true&ctid=22c8b4a4-d926-43b2-bcc7-87b998590b47&actionBarEnabled=true",
+
+            sourceUrl:
+                "https://unirnet-my.sharepoint.com/:x:/r/personal/omaira_bernate_unir_net/Documents/Documentos/Boletin/Financiadores%20y%20convocatorias.xlsx?d=w6ac857a6e04544d29cbb76ca2b4f4e1e&csf=1&web=1&e=awRHkD"
         },
 
         reporte2: {
             name: "Seguimiento Proyectos de Investigación",
 
-            /*
-             * COLOCA AQUÍ LA URL DEL SEGUNDO
-             * REPORTE DE POWER BI.
-             */
+            url:
+                "https://app.powerbi.com/reportEmbed?reportId=a9d856cb-34f2-43dd-aa65-a7a3d9c1aa0b&autoAuth=true&ctid=22c8b4a4-d926-43b2-bcc7-87b998590b47&actionBarEnabled=true",
 
-            url: "https://app.powerbi.com/reportEmbed?reportId=a9d856cb-34f2-43dd-aa65-a7a3d9c1aa0b&autoAuth=true&ctid=22c8b4a4-d926-43b2-bcc7-87b998590b47&actionBarEnabled=true"
+            sourceUrl:
+                "https://unirnet-my.sharepoint.com/:x:/r/personal/ronaldjose_mamani_epnewman_edu_pe/Documents/Documentos/Seguimiento_PINV_PowerBI/Fuente/Seguimiento_PINV.xlsx?d=w49a3a24319344ec09cae3405da4f06b8&csf=1&web=1&e=1MAiMN"
         }
 
     };
@@ -868,6 +883,26 @@
         loadIframe(url);
 
         restartRefreshTimer();
+    }
+
+
+    /* ==========================================
+       ABRIR EXCEL FUENTE
+    ========================================== */
+
+    function openSourceExcel() {
+
+        const report = reports[currentReport];
+
+        if (report && report.sourceUrl) {
+
+            window.open(report.sourceUrl, "_blank");
+
+        } else {
+
+            alert("No hay un archivo Excel fuente disponible o asociado para este reporte.");
+
+        }
     }
 
 
